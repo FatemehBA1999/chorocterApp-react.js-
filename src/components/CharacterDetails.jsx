@@ -17,6 +17,8 @@ function CharacterDetails() {
             <span
               className={`status ${character.status === "Dead" ? "red" : ""}`}
             ></span>
+            <span>&nbsp;{character.status}</span>
+            <span> - &nbsp;{character.species}</span>
           </div>
         </div>
       </div>
