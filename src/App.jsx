@@ -10,16 +10,17 @@ function App() {
   return (
     <div className="app">
       <Navbar numOfResult={allCharacters.length} />
-      <Main allCharacters={allCharacters} />
+      <Main allCharacters={allCharacters}>
+        <CharacterList allCharacters={allCharacters} />
+        <CharacterDetails />
+      </Main>
     </div>
   );
 }
 export default App;
-function Main({ allCharacters }) {
-  return (
-    <div className="main">
-      <CharacterList allCharacters={allCharacters} />
-      <CharacterDetails />
-    </div>
-  );
+function Main({ children }) {
+  return <div className="main">{children}</div>;
 }
+// CHARECTER => App => Main => CharecterList
+// لول پرابسهای ما را یک لول کاهش میدهد => use component composition
+// هدف کامپوننت کامپوزیشن حذف لایه های اضافی است
