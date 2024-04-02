@@ -19,7 +19,7 @@ function App() {
 }
 export default App;
 function Main({ children }) {
-  return <div className="main">{children}</div>;
+  return <div className="main">{ }</div>;
 }
 // CHARECTER => App => Main => CharecterList
 // لول پرابسهای ما را یک لول کاهش میدهد => use component composition
