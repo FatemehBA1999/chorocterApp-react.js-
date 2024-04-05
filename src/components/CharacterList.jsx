@@ -1,4 +1,5 @@
 import { EyeIcon } from "@heroicons/react/24/outline";
+import { useState } from "react";
 
 export default function CharacterList({ allCharacters }) {
   return (
@@ -10,12 +11,16 @@ export default function CharacterList({ allCharacters }) {
   );
 }
 function Character({ item }) {
+  const [open, setOpen] = useState(false);
+  function handleCharacter() {
+    setOpen(!open);
+  }
   return (
     <div className="list__item">
       <img src={item.image} alt={item.name} />
       <CharecterName item={item} />
       <ChareterInfo item={item} />
-      <button className="icon red">
+      <button className="icon red" onClick={handleCharacter}>
         <EyeIcon />
       </button>
     </div>
@@ -38,3 +43,6 @@ function ChareterInfo({ item }) {
     </div>
   );
 }
+
+// render logic =>
+// do not perform network req
