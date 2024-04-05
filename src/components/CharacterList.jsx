@@ -46,3 +46,6 @@ function ChareterInfo({ item }) {
 
 // render logic =>
 // do not perform network req
+// do not create time
+// access DOM API ...
+// do not mutate object , state , props !
