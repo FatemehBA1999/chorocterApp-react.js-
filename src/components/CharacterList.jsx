@@ -35,7 +35,7 @@ function CharecterName({ item }) {
   );
 }
 function ChareterInfo({ item }) {
-  return (
+  return ( 
     <div className="list-item__info info">
       <span className={`status ${item.status === "Dead" ? "red" : ""}`}></span>
       <span> {item.status} </span>
