@@ -1,12 +1,15 @@
 import { EyeIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
+import Loader from "./Loader";
 
-export default function CharacterList({ allCharacters }) {
+export default function CharacterList({ allCharacters, isLoading }) {
   return (
     <div className="characters-list">
-      {allCharacters.map((item) => (
-        <Character key={item.id} item={item} />
-      ))}
+      {isLoading ? (
+        <Loader />
+      ) : (
+        allCharacters.map((item) => <Character key={item.id} item={item} />)
+      )}
     </div>
   );
 }
@@ -35,7 +38,7 @@ function CharecterName({ item }) {
   );
 }
 function ChareterInfo({ item }) {
-  return ( 
+  return (
     <div className="list-item__info info">
       <span className={`status ${item.status === "Dead" ? "red" : ""}`}></span>
       <span> {item.status} </span>

@@ -1,11 +1,13 @@
 import "./App.css";
 import CharacterDetails from "./components/CharacterDetails";
 import CharacterList from "./components/CharacterList";
+import Loader from "./components/Loader";
 import Navbar, { SearchResult } from "./components/Navbar";
 import { useEffect, useState } from "react";
 
 function App() {
   const [charecters, setCharecters] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   //  ???????????????????????????????? fetch=>
   // not to fetch in this way =>
   // fetch("https://rickandmortyapi.com/api/character")
@@ -20,9 +22,13 @@ function App() {
   // }, []);
   // !!!!!!!!!!!!!!!!!!!!!!!!!!!!! best way =>
   // const loadChararecter = () => { // best way
+  // setIsLoading(true);
   //   fetch("https://rickandmortyapi.com/api/character")
   //     .then((res) => res.json())
-  //     .then((data) => setCharecters(data.results.slice(0, 3)));
+  //     .then((data) => {
+  // setCharecters(data.results.slice(0, 3))
+  // setIsLoading(false)
+  // });
   // };
   // ************************* async & await =>
   // then catch => async await . ???
@@ -30,10 +36,12 @@ function App() {
   // async ()=>{}
   useEffect(() => {
     async function fecthData() {
+      setIsLoading(true);
       const res = await fetch("https://rickandmortyapi.com/api/character");
       const data = await res.json();
       setCharecters(data.results.slice(0, 5));
       // console.log(charecters); answer => [] because process is async
+      setIsLoading(false);
     }
     fecthData();
   });
@@ -44,7 +52,7 @@ function App() {
         <SearchResult numOfResult={charecters.length} />
       </Navbar>
       <Main>
-        <CharacterList allCharacters={charecters} />
+        <CharacterList allCharacters={charecters} isLoading={isLoading} />
         <CharacterDetails />
       </Main>
     </div>
