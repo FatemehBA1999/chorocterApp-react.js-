@@ -4,7 +4,7 @@ import CharacterList from "./components/CharacterList";
 import Loader from "./components/Loader";
 import Navbar, { SearchResult } from "./components/Navbar";
 import { useEffect, useState } from "react";
-
+import toast, { Toaster } from "react-hot-toast";
 function App() {
   const [charecters, setCharecters] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -21,14 +21,22 @@ function App() {
   //     .then((data) => setCharecters(data.results.slice(0, 5)));
   // }, []);
   // !!!!!!!!!!!!!!!!!!!!!!!!!!!!! best way =>
-  // const loadChararecter = () => { // best way
-  // setIsLoading(true);
+  // const loadChararecter = () => {
+  //   // best way
+  //   setIsLoading(true);
   //   fetch("https://rickandmortyapi.com/api/character")
-  //     .then((res) => res.json())
+  //     .then((res) => {
+  //       if (!res.ok) throw new Error("Something went wrong");
+  //     return  res.json();
+  //     })
   //     .then((data) => {
-  // setCharecters(data.results.slice(0, 3))
-  // setIsLoading(false)
-  // });
+  //       setCharecters(data.results.slice(0, 3));
+  //       setIsLoading(false);
+  //     })
+  //     .catch((err) => {
+  //       setIsLoading(false)
+  //       toast.error(err.message)
+  //     });
   // };
   // ************************* async & await =>
   // then catch => async await . ???
@@ -36,18 +44,28 @@ function App() {
   // async ()=>{}
   useEffect(() => {
     async function fecthData() {
-      setIsLoading(true);
-      const res = await fetch("https://rickandmortyapi.com/api/character");
-      const data = await res.json();
-      setCharecters(data.results.slice(0, 5));
-      // console.log(charecters); answer => [] because process is async
-      setIsLoading(false);
+      try {
+        // setIsLoading(true);
+        const res = await fetch("https://rickandmortyapi.com/api/characterkll");
+        if (!res.ok) throw Error("Something went wrong");
+        const data = await res.json();
+        setCharecters(data.results.slice(0, 5));
+        // console.log(charecters); answer => [] because process is async
+        // setIsLoading(false);
+      } catch (error) {
+        // setIsLoading(false);
+        console.log(error.message);
+        toast.error(error.message); // in real project must use => err.response.data.message
+      } finally {
+        setIsLoading(false);
+      }
     }
     fecthData();
   });
   return (
     <div className="app">
       {/* <button className="badge badge--secondary" onClick={loadChararecter}>load new data(exp)</button> */}
+      <Toaster />
       <Navbar>
         <SearchResult numOfResult={charecters.length} />
       </Navbar>
