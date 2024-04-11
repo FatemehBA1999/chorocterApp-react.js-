@@ -1,6 +1,15 @@
-import { character, episodes } from "../../data/data";
+import { useState } from "react";
+import { episodes } from "../../data/data";
 import { ArrowUpCircleIcon } from "@heroicons/react/24/outline";
-function CharacterDetails() {
+function CharacterDetails({ selectedId }) {
+  const [character, setCharecter] = useState(null);
+  // how to fetch single character data
+  if (!character)
+    return (
+      <div style={{ flex: 1, color: "var(--slate-300)" }}>
+        please select a character.
+      </div>
+    );
   return (
     <div style={{ flex: 1 }}>
       <div className="character-detail">

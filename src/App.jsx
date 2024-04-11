@@ -10,6 +10,7 @@ function App() {
   const [charecters, setCharecters] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [query, setQuery] = useState("");
+  const [selectedId, setSelectedId] = useState(null);
   //********************************* */ مفاهیم و تعاریف useeffectها
   //  ???????????????????????????????? fetch=>
   // not to fetch in this way =>
@@ -124,13 +125,18 @@ function App() {
         console.log(error.response.data.error);
         // setIsLoading(false);
         console.log(error.message);
-        toast.error(error.message); // in real project must use => err.response.data.message
+        toast.error(error.response.data.error);
+        // toast.error(error.message); // in real project must use => err.response.data.message
       } finally {
         setIsLoading(false);
       }
     }
     fecthData();
-  }, []);
+  }, [query]);
+  const handelSelectCharacter = (id) => {
+    setSelectedId(id);
+  };
+  console.log(selectedId);
   return (
     <div className="app">
       {/* <button className="badge badge--secondary" onClick={loadChararecter}>load new data(exp)</button> */}
@@ -141,8 +147,12 @@ function App() {
         <SearchResult numOfResult={charecters.length} />
       </Navbar>
       <Main>
-        <CharacterList allCharacters={charecters} isLoading={isLoading} />
-        <CharacterDetails />
+        <CharacterList
+          onSelecttCharacter={handelSelectCharacter}
+          allCharacters={charecters}
+          isLoading={isLoading}
+        />
+        <CharacterDetails selectedId={selectedId} />
       </Main>
     </div>
   );
