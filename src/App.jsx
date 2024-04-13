@@ -148,11 +148,13 @@ function App() {
       </Navbar>
       <Main>
         <CharacterList
-          onSelecttCharacter={handelSelectCharacter}
+          onSelectCharacter={handelSelectCharacter}
           allCharacters={charecters}
           isLoading={isLoading}
         />
-        <CharacterDetails selectedId={selectedId} />
+        <CharacterDetails
+          selectedId={selectedId ? selectedId : console.log("please selectId")}
+        />
       </Main>
     </div>
   );

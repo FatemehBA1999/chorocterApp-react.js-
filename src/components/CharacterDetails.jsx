@@ -1,10 +1,20 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { episodes } from "../../data/data";
 import { ArrowUpCircleIcon } from "@heroicons/react/24/outline";
+import axios from "axios";
 function CharacterDetails({ selectedId }) {
   const [character, setCharecter] = useState(null);
   // how to fetch single character data
-  if (!character)
+  useEffect(() => {
+    async function fetchData() {
+      const { data } = axios.get(
+        `https://rickandmortyapi.com/api/character/${selectedId}`
+      );
+      setCharecter(data);
+    }
+    if (selectedId) fetchData();
+  }, [selectedId]);
+  if (!character || !selectedId)
     return (
       <div style={{ flex: 1, color: "var(--slate-300)" }}>
         please select a character.
