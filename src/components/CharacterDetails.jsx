@@ -1,19 +1,42 @@
 import { useEffect, useState } from "react";
-import { episodes } from "../../data/data";
 import { ArrowUpCircleIcon } from "@heroicons/react/24/outline";
 import axios from "axios";
+import toast from "react-hot-toast";
+import Loader from "./Loader";
 function CharacterDetails({ selectedId }) {
   const [character, setCharecter] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [episodes, setEpisodes] = useState([]);
   // how to fetch single character data
   useEffect(() => {
     async function fetchData() {
-      const { data } = axios.get(
-        `https://rickandmortyapi.com/api/character/${selectedId}`
-      );
-      setCharecter(data);
+      try {
+        setIsLoading(true);
+        setCharecter(null);
+        const { data } = await axios.get(
+          `https://rickandmortyapi.com/api/character/${selectedId}`
+        );
+        setCharecter(data);
+        const episodesId = data.episode.map((e) => e.split("/").at(-1)); //[1,2,3,..]
+        const { data: episodeData } = await axios.get(
+          `https://rickandmortyapi.com/api/episode/${episodesId}`
+        );
+        console.log([episodeData].flat());
+        setEpisodes([episodeData].flat().slice(0, 6)); // برای اینکه ارایه ایی از ابجکتهای ما بصورت صاف و یکدست شود
+      } catch (error) {
+        toast.error(error.response.data.error);
+      } finally {
+        setIsLoading(false); //در هر صورت فاینلی اجرا میشودچه ترای اجرا شود و چه کچ اجرا شود
+      }
     }
     if (selectedId) fetchData();
   }, [selectedId]);
+  if (isLoading)
+    return (
+      <div style={{ flex: 1 }}>
+        <Loader />
+      </div>
+    );
   if (!character || !selectedId)
     return (
       <div style={{ flex: 1, color: "var(--slate-300)" }}>

@@ -117,7 +117,7 @@ function App() {
         const { data } = await axios.get(
           `https://rickandmortyapi.com/api/character/?name=${query}`
         );
-        setCharecters(data.results.slice(0, 5));
+        setCharecters(data.results.slice(0, 3));
         // console.log(charecters); answer => [] because process is async
         // setIsLoading(false);
       } catch (error) {
@@ -134,7 +134,7 @@ function App() {
     fecthData();
   }, [query]);
   const handelSelectCharacter = (id) => {
-    setSelectedId(id);
+    setSelectedId((preId) => (preId === id ? null : id));
   };
   console.log(selectedId);
   return (
@@ -148,13 +148,12 @@ function App() {
       </Navbar>
       <Main>
         <CharacterList
+          selectedId={selectedId}
           onSelectCharacter={handelSelectCharacter}
           allCharacters={charecters}
           isLoading={isLoading}
         />
-        <CharacterDetails
-          selectedId={selectedId ? selectedId : console.log("please selectId")}
-        />
+        <CharacterDetails selectedId={selectedId} />
       </Main>
     </div>
   );
