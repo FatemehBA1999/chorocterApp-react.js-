@@ -13,6 +13,7 @@ function App() {
   const [query, setQuery] = useState("");
   const [selectedId, setSelectedId] = useState(null);
   const [favorites, setFavorites] = useState([]);
+  const [count, setCount] = useState(0);
   //********************************* */ مفاهیم و تعاریف useeffectها
   //  ???????????????????????????????? fetch=>
   // not to fetch in this way =>
@@ -135,6 +136,32 @@ function App() {
     }
     fecthData();
   }, [query]);
+  //************ */
+  // cleanUp function =>
+  // what?
+  // why to use?
+  // when run? 1.unmount component,2.before the next re-render(between re-renders)
+  // where to use? after unmount or while re-rendering
+  //  *:example:* fetchApi,timer,addEvenListener
+  //??????????????????
+  // useEffect(() => {
+  //   setInterval(() => setCount((c) => c + 1), 1000);
+  // }, [count]);
+  //?خارج از کنترل ما اجرا میشود و اصلا ان خروجی ایی که ما میخواهیم را به ما نمیدهد
+  //!مهمترین وظیفه کلین اپ فانکشن :
+  //*جلوگیری از لیک حافظه
+  //*جلوگیری یا حذف کردن رفتارهای  ناخواسته و غیر ضروری
+  //**************best way */
+  //* re-render == unmount
+  //* render == mount
+  useEffect(() => {
+    const interval = setInterval(() => setCount((c) => c + 1), 1000);
+    // return function () {};
+    return () => {
+      clearInterval(interval); //اگر به هر دلیلی کامپوننت ما انمونت شد باید این خط رو اجرا کند
+    };
+  }, [count]);
+
   const handelSelectCharacter = (id) => {
     setSelectedId((preId) => (preId === id ? null : id));
   };
@@ -146,6 +173,7 @@ function App() {
   return (
     <div className="app">
       {/* <button className="badge badge--secondary" onClick={loadChararecter}>load new data(exp)</button> */}
+      <div style={{ color: "#fff" }}>{count}</div>
       <Toaster />
       <Loader />
       <Navbar>
