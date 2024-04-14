@@ -6,11 +6,13 @@ import Navbar, { SearchResult, Search } from "./components/Navbar";
 import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
+import { Favorites } from "./components/Navbar";
 function App() {
   const [charecters, setCharecters] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [query, setQuery] = useState("");
   const [selectedId, setSelectedId] = useState(null);
+  const [favorites, setFavorites] = useState([]);
   //********************************* */ مفاهیم و تعاریف useeffectها
   //  ???????????????????????????????? fetch=>
   // not to fetch in this way =>
@@ -137,6 +139,10 @@ function App() {
     setSelectedId((preId) => (preId === id ? null : id));
   };
   console.log(selectedId);
+  const handelAddFavourite = (char) => {
+    setFavorites((prevFav) => [...prevFav, char]);
+  };
+  const isAddToFavourite = favorites.map((fav) => fav.id).includes(selectedId); //[1,2,3]
   return (
     <div className="app">
       {/* <button className="badge badge--secondary" onClick={loadChararecter}>load new data(exp)</button> */}
@@ -145,6 +151,7 @@ function App() {
       <Navbar>
         <Search query={query} setQuery={setQuery} />
         <SearchResult numOfResult={charecters.length} />
+        <Favorites numOfFavourites={favorites.length} />
       </Navbar>
       <Main>
         <CharacterList
@@ -153,7 +160,11 @@ function App() {
           allCharacters={charecters}
           isLoading={isLoading}
         />
-        <CharacterDetails selectedId={selectedId} />
+        <CharacterDetails
+          selectedId={selectedId}
+          onAddFavourite={handelAddFavourite}
+          isAddToFavourite={isAddToFavourite}
+        />
       </Main>
     </div>
   );

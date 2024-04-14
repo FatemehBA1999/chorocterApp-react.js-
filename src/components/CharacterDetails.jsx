@@ -3,7 +3,7 @@ import { ArrowUpCircleIcon } from "@heroicons/react/24/outline";
 import axios from "axios";
 import toast from "react-hot-toast";
 import Loader from "./Loader";
-function CharacterDetails({ selectedId }) {
+function CharacterDetails({ selectedId, onAddFavourite, isAddToFavourite }) {
   const [character, setCharecter] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [episodes, setEpisodes] = useState([]);
@@ -68,7 +68,16 @@ function CharacterDetails({ selectedId }) {
             <p>{character.location.name}</p>
           </div>
           <div className="actions">
-            <button className="btn btn--primary">Add to Favorite</button>
+            {isAddToFavourite ? (
+              <p>Already Added To Favourites ✅</p>
+            ) : (
+              <button
+                onClick={() => onAddFavourite(character)} // اگر ارگمان بخواهیم بهش پاس بدهیم باید بصورت کالبک فانکشن از ان استفاده کنیم
+                className="btn btn--primary"
+              >
+                Add to Favorite
+              </button>
+            )}
           </div>
         </div>
       </div>
