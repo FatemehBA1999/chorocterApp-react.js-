@@ -114,18 +114,21 @@ function App() {
   //************************************* */
 
   useEffect(() => {
+    const controller = new AbortController();
+    const signal = controller.signal;
     async function fecthData() {
       try {
         setIsLoading(true);
         const { data } = await axios.get(
-          `https://rickandmortyapi.com/api/character/?name=${query}`
+          `https://rickandmortyapi.com/api/character/?name=${query}`,
+          { signal }
         );
         setCharecters(data.results.slice(0, 3));
         // console.log(charecters); answer => [] because process is async
         // setIsLoading(false);
       } catch (error) {
         setCharecters([]);
-        console.log(error.response.data.error);
+        // console.log(error.response.data.error);
         // setIsLoading(false);
         console.log(error.message);
         toast.error(error.response.data.error);
@@ -135,6 +138,9 @@ function App() {
       }
     }
     fecthData();
+    return () =>
+      //controller
+      controller.abort(); //هر بار کامپوننت در حال ریرندر شدن باشد رکوئستی که در حال اجرا باشد راکنسل میکند
   }, [query]);
   //************ */
   // cleanUp function =>
@@ -165,7 +171,7 @@ function App() {
   const handelSelectCharacter = (id) => {
     setSelectedId((preId) => (preId === id ? null : id));
   };
-  console.log(selectedId);
+  // console.log(selectedId);
   const handelAddFavourite = (char) => {
     setFavorites((prevFav) => [...prevFav, char]);
   };
