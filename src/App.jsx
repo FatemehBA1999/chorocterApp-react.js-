@@ -127,11 +127,19 @@ function App() {
         // console.log(charecters); answer => [] because process is async
         // setIsLoading(false);
       } catch (error) {
-        setCharecters([]);
-        // console.log(error.response.data.error);
+        // fetch => err.name==="AbortError"
+        // if (error.name !== "AbortError") {
+        //   setCharecters([]);
+        //   toast.error(error.response.data.error);
+        // }
+        // axios => axios.isCancle()
+        if (!axios.isCancel()) { //اررهایی رو نشون بده که ما اونها رو کنسل نکردیم
+          setCharecters([]);
+          toast.error(error.response.data.error);
+        }
         // setIsLoading(false);
-        console.log(error.message);
-        toast.error(error.response.data.error);
+        // console.log(error.response.data.error);
+        // console.log(error.message);
         // toast.error(error.message); // in real project must use => err.response.data.message
       } finally {
         setIsLoading(false);

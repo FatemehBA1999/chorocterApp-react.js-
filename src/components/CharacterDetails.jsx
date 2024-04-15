@@ -45,42 +45,6 @@ function CharacterDetails({ selectedId, onAddFavourite, isAddToFavourite }) {
     );
   return (
     <div style={{ flex: 1 }}>
-      <div className="character-detail">
-        <img
-          src={character.image}
-          alt={character.name}
-          className="character-detail__img"
-        />
-        <div className="character-detail__info">
-          <h3 className="name">
-            <span>{character.gender === "Male" ? "🧓" : "👱‍♀️"}</span>
-            <span>&nbsp;{character.name}</span>
-          </h3>
-          <div className="info">
-            <span
-              className={`status ${character.status === "Dead" ? "red" : ""}`}
-            ></span>
-            <span>&nbsp;{character.status}</span>
-            <span> - &nbsp;{character.species}</span>
-          </div>
-          <div className="location">
-            <p>last knowm location:</p>
-            <p>{character.location.name}</p>
-          </div>
-          <div className="actions">
-            {isAddToFavourite ? (
-              <p>Already Added To Favourites ✅</p>
-            ) : (
-              <button
-                onClick={() => onAddFavourite(character)} // اگر ارگمان بخواهیم بهش پاس بدهیم باید بصورت کالبک فانکشن از ان استفاده کنیم
-                className="btn btn--primary"
-              >
-                Add to Favorite
-              </button>
-            )}
-          </div>
-        </div>
-      </div>
       <div className="character-episodes">
         <div className="title">
           <h2>List of Episodes:</h2>
@@ -105,3 +69,44 @@ function CharacterDetails({ selectedId, onAddFavourite, isAddToFavourite }) {
 }
 
 export default CharacterDetails;
+
+function characterSubInfo() {
+  return (
+    <div className="character-detail">
+      <img
+        src={character.image}
+        alt={character.name}
+        className="character-detail__img"
+      />
+      <div className="character-detail__info">
+        <h3 className="name">
+          <span>{character.gender === "Male" ? "🧓" : "👱‍♀️"}</span>
+          <span>&nbsp;{character.name}</span>
+        </h3>
+        <div className="info">
+          <span
+            className={`status ${character.status === "Dead" ? "red" : ""}`}
+          ></span>
+          <span>&nbsp;{character.status}</span>
+          <span> - &nbsp;{character.species}</span>
+        </div>
+        <div className="location">
+          <p>last knowm location:</p>
+          <p>{character.location.name}</p>
+        </div>
+        <div className="actions">
+          {isAddToFavourite ? (
+            <p>Already Added To Favourites ✅</p>
+          ) : (
+            <button
+              onClick={() => onAddFavourite(character)} // اگر ارگمان بخواهیم بهش پاس بدهیم باید بصورت کالبک فانکشن از ان استفاده کنیم
+              className="btn btn--primary"
+            >
+              Add to Favorite
+            </button>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
