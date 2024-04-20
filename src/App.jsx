@@ -181,6 +181,9 @@ function App() {
   const handelSelectCharacter = (id) => {
     setSelectedId((preId) => (preId === id ? null : id));
   };
+  const handleDeleteFavourite = (id) => {
+    setFavorites((prevFav) => prevFav.filter((fav) => fav.id !== id));
+  };
   // console.log(selectedId);
   const handelAddFavourite = (char) => {
     setFavorites((prevFav) => [...prevFav, char]);
@@ -191,12 +194,15 @@ function App() {
       {/* <button className="badge badge--secondary" onClick={loadChararecter}>load new data(exp)</button> */}
       <div style={{ color: "#fff" }}>{count}</div>
       <Toaster />
-      <Modal title={title} />
+      {/* <Modal title="modal test" open={true} onOpen={}></Modal> */}
       <Loader />
       <Navbar>
         <Search query={query} setQuery={setQuery} />
         <SearchResult numOfResult={charecters.length} />
-        <Favorites numOfFavourites={favorites.length} />
+        <Favorites
+          favourites={favorites}
+          onDeleteFavourite={handleDeleteFavourite}
+        />
       </Navbar>
       <Main>
         <CharacterList
