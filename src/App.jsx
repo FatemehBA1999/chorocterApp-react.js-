@@ -14,8 +14,8 @@ function App() {
   const [selectedId, setSelectedId] = useState(null);
   // const [favorites, setFavorites] = useState([]); // without save to local storage
   const [favorites, setFavorites] = useState(
-    () => JSON.parse(localStorage.getItem("FAVOURITES") || []) //everything has saved in localstorage => type of String
-  );
+    () => JSON.parse(localStorage.getItem("FAVOURITES")) || []
+  ); //everything has saved in localstorage => type of String
   const [count, setCount] = useState(0);
   //********************************* */ مفاهیم و تعاریف useeffectها
   //  ???????????????????????????????? fetch=>
