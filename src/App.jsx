@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
 import { Favorites } from "./components/Navbar";
+import Modal from "./components/Modal";
 function App() {
   const [charecters, setCharecters] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -133,7 +134,8 @@ function App() {
         //   toast.error(error.response.data.error);
         // }
         // axios => axios.isCancle()
-        if (!axios.isCancel()) { //اررهایی رو نشون بده که ما اونها رو کنسل نکردیم
+        if (!axios.isCancel()) {
+          //اررهایی رو نشون بده که ما اونها رو کنسل نکردیم
           setCharecters([]);
           toast.error(error.response.data.error);
         }
@@ -189,6 +191,7 @@ function App() {
       {/* <button className="badge badge--secondary" onClick={loadChararecter}>load new data(exp)</button> */}
       <div style={{ color: "#fff" }}>{count}</div>
       <Toaster />
+      <Modal title={title} />
       <Loader />
       <Navbar>
         <Search query={query} setQuery={setQuery} />
