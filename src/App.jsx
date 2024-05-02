@@ -7,55 +7,20 @@ import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
 import { Favorites } from "./components/Navbar";
+import useCharacters from "./hooks/useCharacters";
 function App() {
-  const [charecters, setCharecters] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
   const [query, setQuery] = useState("");
+  const { isLoading, charecters } = useCharacters(
+    "https://rickandmortyapi.com/api/character/?name",
+    query
+  );
   const [selectedId, setSelectedId] = useState(null);
   // const [favorites, setFavorites] = useState([]); // without save to local storage
   const [favorites, setFavorites] = useState(
     () => JSON.parse(localStorage.getItem("FAVOURITES")) || []
   ); //everything has saved in localstorage => type of String
   const [count, setCount] = useState(0);
-  useEffect(() => {
-    const controller = new AbortController();
-    const signal = controller.signal;
-    async function fecthData() {
-      try {
-        setIsLoading(true);
-        const { data } = await axios.get(
-          `https://rickandmortyapi.com/api/character/?name=${query}`,
-          { signal }
-        );
-        setCharecters(data.results.slice(0, 3));
-        // console.log(charecters); answer => [] because process is async
-        // setIsLoading(false);
-      } catch (error) {
-        // fetch => err.name==="AbortError"
-        // if (error.name !== "AbortError") {
-        //   setCharecters([]);
-        //   toast.error(error.response.data.error);
-        // }
-        // axios => axios.isCancle()
-        if (!axios.isCancel()) {
-          //اررهایی رو نشون بده که ما اونها رو کنسل نکردیم
-          setCharecters([]);
-          toast.error(error.response.data.error);
-        }
-        // setIsLoading(false);
-        // console.log(error.response.data.error);
-        // console.log(error.message);
-        // toast.error(error.message); // in real project must use => err.response.data.message
-      } finally {
-        setIsLoading(false);
-      }
-    }
-    fecthData();
-    return () =>
-      //controller
-      controller.abort(); //هر بار کامپوننت در حال ریرندر شدن باشد رکوئستی که در حال اجرا باشد راکنسل میکند
-  }, [query]);
- 
+
   useEffect(() => {
     const interval = setInterval(() => setCount((c) => c + 1), 1000);
     // return function () {};
